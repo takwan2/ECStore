@@ -1,8 +1,9 @@
-import Product from './Product.jsx';
+import React from 'react';
+import Product from './Product.tsx';
 import { useContext } from "react";
-import { CartContext } from "../store/shopping-cart-context";
+import { CartContext } from "../store/shopping-cart-context.tsx";
 import { fetchProducts } from '../http/http.js';
-import { useFetch } from '../hooks/useFetch.js';
+import { useFetch } from '../hooks/useFetch.tsx';
 
 export default function Shop() {
   const { addItemToCart } = useContext(CartContext);

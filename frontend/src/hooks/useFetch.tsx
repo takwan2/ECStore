@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 
-export function useFetch(fetchFn, initialValue) {
+type FetchFunction<T> = () => Promise<T>;
+
+export function useFetch<T>(fetchFn: FetchFunction<T>, initialValue: T) {
   const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState(null);
-  const [fetchData, setFetchData] = useState(initialValue);
+  const [error, setError] = useState<Error | null>(null);
+  const [fetchData, setFetchData] = useState<T>(initialValue);
 
   const fetchDataFromApi = useCallback(async () => {
     setIsFetching(true);
@@ -12,7 +14,8 @@ export function useFetch(fetchFn, initialValue) {
       setFetchData(data);
       setError(null);
     } catch (error) {
-      setError({ message: error.message || 'サーバーとの通信に失敗しました。' });
+      // setError({ message: error.message || 'サーバーとの通信に失敗しました。' });
+      setError(error instanceof Error ? error : new Error('サーバーとの通信に失敗しました。'));
     } finally {
       setIsFetching(false);
     }

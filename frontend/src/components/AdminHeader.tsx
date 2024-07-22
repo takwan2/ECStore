@@ -1,4 +1,11 @@
-export default function AdminHeader({ title, buttons }) {
+import React from "react";
+
+interface AdminHeaderProps {
+  title: string;
+  buttons?: React.ReactNode;
+}
+
+const AdminHeader: React.FC<AdminHeaderProps> = ({ title, buttons }) => {
 
   return (
     <>
@@ -13,3 +20,5 @@ export default function AdminHeader({ title, buttons }) {
     </>
   );
 }
+
+export default AdminHeader;

@@ -3,7 +3,7 @@ import '@aws-amplify/ui-react/styles.css';
 import { Amplify } from 'aws-amplify';
 import { I18n } from 'aws-amplify/utils';
 import { translations } from '@aws-amplify/ui';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useNavigate } from "react-router-dom";
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -47,14 +47,19 @@ function Login() {
   async function currentSession() {
     try {
       const { tokens } = await fetchAuthSession({ forceRefresh: true });
-      console.log(tokens);
-      console.log("user belongs to following groups: " + tokens.accessToken.payload["cognito:groups"])
-      const group = tokens.accessToken.payload["cognito:groups"];
-      if(group && group == "Admin") {
-        navigate("/admin/product");
+      // console.log(tokens);
+      if(tokens) {
+        console.log("user belongs to following groups: " + tokens.accessToken.payload["cognito:groups"])
+        const group = tokens.accessToken.payload["cognito:groups"];
+        if(group && group == "Admin") {
+          navigate("/admin/product");
+        } else {
+          navigate("/");
+        }
       } else {
         navigate("/");
       }
+
     } catch (err) {
       console.log(err);
     }
@@ -70,7 +75,7 @@ function Login() {
     <Authenticator formFields={formFields}>
       {({ signOut, user }) => (
         <main>
-          <h1>Hello {user.username}</h1>
+          <h1>Hello {user ? user.username : "ユーザー名を取得できませんでした。"}</h1>
           <button onClick={signOut}>Sign out</button>
         </main>
       )}

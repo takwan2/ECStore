@@ -1,5 +1,6 @@
-import AdminHeader from './AdminHeader.jsx';
-import Stock from './Stock.jsx';
+import React from 'react';
+import AdminHeader from './AdminHeader.tsx';
+import Stock from './Stock.tsx';
 import { Link } from "react-router-dom";
 
 function Home() {

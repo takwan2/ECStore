@@ -3,14 +3,26 @@ import { useParams } from 'react-router-dom';
 import { editProducts, postProducts } from '../http/http';
 import { Link } from "react-router-dom";
 
-const ProductForm = ({ product, isEdit }) => {
-  const [title, setTitle] = useState(product ? product.title : '');
-  const [price, setPrice] = useState(product ? product.price : '');
-  const [stock, setStock] = useState(product ? product.stock : '');
-  const [description, setDescription] = useState(product ? product.description : '');
+interface Product {
+  title: string;
+  price: string;
+  stock: string;
+  description: string;
+}
+
+interface ProductFormProps {
+  product?: Product;
+  isEdit: boolean;
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({ product, isEdit }) => {
+  const [title, setTitle] = useState<string>(product ? product.title : '');
+  const [price, setPrice] = useState<string>(product ? product.price : '');
+  const [stock, setStock] = useState<string>(product ? product.stock : '');
+  const [description, setDescription] = useState<string>(product ? product.description : '');
   const id = useParams().id
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(isEdit) {
       try {

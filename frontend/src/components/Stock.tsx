@@ -1,6 +1,7 @@
-import Product from './Product.jsx';
+import React from 'react';
+import Product from './Product.tsx';
 import { fetchProducts } from '../http/http.js';
-import { useFetch } from '../hooks/useFetch.js';
+import { useFetch } from '../hooks/useFetch.tsx';
 import { Link } from "react-router-dom";
 import { deleteProducts } from '../http/http.js';
 

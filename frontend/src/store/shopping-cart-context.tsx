@@ -1,20 +1,40 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import { fetchProducts } from '../http/http.js';
-import { useFetch } from '../hooks/useFetch.js';
+import { useFetch } from '../hooks/useFetch.tsx';
 
-export const CartContext = createContext({
+interface Product {
+  id: string;
+  title: string;
+  price: number;
+  stock: number;
+}
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartContextType {
+  items: CartItem[];
+  addItemToCart: (id: string) => void;
+  updateItemQuantity: (productId: string, amount: number) => void;
+}
+
+export const CartContext = createContext<CartContextType>({
   items: [],
   addItemToCart: () => {},
   updateItemQuantity: () => {},
 });
 
 export default function CartContextProvider({ children }) {
-  const [shoppingCart, setShoppingCart] = useState({
+  const [shoppingCart, setShoppingCart] = useState<{ items: CartItem[] }>({
     items: [],
   });
-  const { fetchData } = useFetch(fetchProducts, []);
+  const { fetchData } = useFetch<Product[]>(fetchProducts, []);
 
-  function handleAddItemToCart(id) {
+  function handleAddItemToCart(id: string) {
     setShoppingCart((prevShoppingCart) => {
       const updatedItems = [...prevShoppingCart.items];
 
@@ -24,6 +44,11 @@ export default function CartContextProvider({ children }) {
 
       const existingCartItem = updatedItems[existingCartItemIndex];
       const product = fetchData.find((product) => product.id === id);
+
+      if (!product) {
+        alert('商品が見つかりません');
+        return prevShoppingCart;
+      }
 
       if (existingCartItem) {
 
@@ -55,7 +80,7 @@ export default function CartContextProvider({ children }) {
     });
   }
 
-  function handleUpdateCartItemQuantity(productId, amount) {
+  function handleUpdateCartItemQuantity(productId: string, amount: number) {
     setShoppingCart((prevShoppingCart) => {
       const updatedItems = [...prevShoppingCart.items];
       const updatedItemIndex = updatedItems.findIndex(
@@ -69,6 +94,11 @@ export default function CartContextProvider({ children }) {
       };
 
       const product = fetchData.find((product) => product.id === productId);
+
+      if (!product) {
+        alert('商品が見つかりません');
+        return prevShoppingCart;
+      }
 
       const newQuantity = updatedItem.quantity + amount;
       if (newQuantity <= 0) {

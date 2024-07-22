@@ -17,6 +17,9 @@ export async function currentAuthenticatedUser() {
 export async function currentAuthenticatedAdminUser() {
   try {
     const { tokens } = await fetchAuthSession({ forceRefresh: true });
+    if(!tokens) {
+      return redirect("/login");
+    }
     console.log(tokens);
     console.log("user belongs to following groups: " + tokens.accessToken.payload["cognito:groups"])
     const group = tokens.accessToken.payload["cognito:groups"];

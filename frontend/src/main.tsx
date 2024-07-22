@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import router from './router.jsx'
+import router from './router.tsx'
 import {
   RouterProvider,
 } from "react-router-dom";
 import { Authenticator} from '@aws-amplify/ui-react';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <Authenticator.Provider>
     <RouterProvider
       router={router}

@@ -1,16 +1,17 @@
-import { useRef, useContext } from 'react';
-
-import CartModal from './CartModal.jsx';
-import { CartContext } from '../store/shopping-cart-context.jsx';
+import React, { useRef, useContext } from 'react';
+import CartModal from './CartModal.tsx';
+import { CartContext } from '../store/shopping-cart-context.tsx';
 
 export default function Header() {
-  const modal = useRef();
+  const modal = useRef<React.ElementRef<typeof CartModal>>(null);
   const { items } = useContext(CartContext);
 
-  const cartQuantity = items.reduce((sum, item) => sum + item.quantity, 0);;
+  const cartQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
   function handleOpenCartClick() {
-    modal.current.open();
+    if (modal.current) {
+      modal.current.open();
+    }
   }
 
   let modalActions = <button>閉じる</button>;

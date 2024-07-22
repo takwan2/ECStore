@@ -1,6 +1,7 @@
+import React from 'react';
 import Header from './Header.jsx';
-import Shop from './Shop.jsx';
-import CartContextProvider from '../store/shopping-cart-context.jsx';
+import Shop from './Shop.tsx';
+import CartContextProvider from '../store/shopping-cart-context.tsx';
 
 function Home() {
 
